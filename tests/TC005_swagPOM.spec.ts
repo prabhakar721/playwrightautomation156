@@ -1,0 +1,13 @@
+import {test, expect} from "@playwright/test"
+import { LoginPage } from "../Pages/Loginpage"
+import { Productpage } from "../Pages/Productpage"
+
+test("Swaglab productpage In POM",async({page})=>{
+    const loginPage = new LoginPage(page);
+   const productpage = new Productpage(page);
+   await loginPage.loginToSwag("standard_user", "secret_sauce");
+  await loginPage.ClicksLoginButton();
+   await productpage.Addtocart();
+   await productpage.Addtocartclick1();
+
+})
