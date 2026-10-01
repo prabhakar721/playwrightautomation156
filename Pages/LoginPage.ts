@@ -1,72 +1,50 @@
-import {Page,Locator,expect} from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
+
 export class LoginPage {
+    readonly page: Page;
+    readonly userName: Locator;
+    readonly password: Locator;
+    readonly loginButton: Locator;
 
-    private readonly accountList: Locator;
-    private readonly usernameTextbox: Locator;
-    private readonly continueButton: Locator;
-    private readonly passwordTextbox: Locator;
-    private readonly signInButton: Locator;
-
-    constructor(private readonly page: Page) {
-
-        this.accountList = page.getByRole('link', {
-            name: 'Hello, sign in Account & Lists'
-        });
-
-        this.usernameTextbox = page.getByRole('textbox', {
-            name: 'Enter mobile number or email'
-        });
-
-        this.continueButton = page.locator('#continue');
-
-        this.passwordTextbox = page.getByRole('textbox', {
-            name: 'Password'
-        });
-
-        this.signInButton = page.getByRole('button', {
-            name: 'Sign in',
-            exact: true
-        });
+    constructor(page: Page) {
+        this.page = page;
+        this.userName = page.locator('[data-test="username"]');
+        this.password = page.locator('[data-test="password"]');
+        this.loginButton = page.locator('[data-test="login-button"]');
     }
 
-    async clickAccountList(): Promise<void> {
-        await this.accountList.click();
+    async navigate(): Promise<void> {
+        await this.page.goto('https://www.saucedemo.com/');
     }
 
-    async verifyUsernameField(): Promise<void> {
-        await expect(
-            this.usernameTextbox
-        ).toBeVisible();
+    async loginToSwag(userNameData: string, passwordData: string): Promise<void> {
+        await this.navigate();
+        await this.userName.fill(userNameData);
+        await this.password.fill(passwordData);
     }
 
-    async enterUsername(
-        username: string
-    ): Promise<void> {
-
-        await this.usernameTextbox.fill(username);
+    async login(username: string, password: string): Promise<void> {
+        await this.navigate();
+        await this.userName.fill(username);
+        await this.password.fill(password);
+        await this.loginButton.click();
     }
 
-    async clickContinue(): Promise<void> {
-        
-        await this.continueButton.click();
+    async ClicksLoginButton(): Promise<void> {
+        await this.loginButton.click();
     }
 
-    async verifyPasswordField(): Promise<void> {
-        await expect(this.passwordTextbox).toBeVisible();
+    async enterUsername(username: string): Promise<void> {
+        await this.userName.fill(username);
     }
 
-    async enterPassword(
-        password: string
-    ): Promise<void> {
-
-        await this.passwordTextbox.fill(password);
+    async enterPassword(password: string): Promise<void> {
+        await this.password.fill(password);
     }
 
-    async verifySignInButton(): Promise<void> {
-        await expect(this.signInButton).toBeVisible();
-    }
-
-    async clickSignIn(): Promise<void> {
-        await this.signInButton.click();
+    async clickLoginButton(): Promise<void> {
+        await this.loginButton.click();
     }
 }
+
+export class SwagLoginPage extends LoginPage {}

@@ -1,0 +1,23 @@
+{
+  "validUser": {
+    "username": "standard_user",
+    "password": "secret_sauce"
+  },
+  "customer": {
+    "firstName": "prabha",
+    "lastName": "sekar",
+    "postalCode": "600037"
+  },
+  "login": {
+    "username": "standard_user",
+    "password": "secret_sauce"
+  },
+  "checkout": {
+    "firstName": "prabha",
+    "lastName": "sekar",
+    "postalCode": "600037"
+  },
+  "product": {
+    "name": "Sauce Labs Backpack"
+  }
+}

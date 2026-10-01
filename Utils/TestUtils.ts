@@ -1,66 +1,55 @@
-import { Page, TestInfo, test } from '@playwright/test';
+
+import { Page, TestInfo, test } from "@playwright/test";
 
 export class TestUtils {
 
-    private stepCounter = 0;
+    static stepNo = 1;
 
-    constructor(
-        private readonly page: Page,
-        private readonly testInfo: TestInfo
-    ) {}
 
-    async executeStep(
-        description: string,
+    static async executeStep(
+        page: Page,
+        testInfo: TestInfo,
+        stepName: string,
         action: () => Promise<void>
-    ): Promise<void> {
+    ) {
 
-        this.stepCounter++;
+       
+        const currentStep = this.stepNo++;
 
-        const stepName = `${this.stepCounter}. ${description}`;
+    
+        await test.step(
+            `STEP ${currentStep} - ${stepName}`,
+            async () => {
 
-        await test.step(stepName, async () => {
-
-            try {
-
+                
                 await action();
 
+                
                 await this.takeScreenshot(
-                    `PASS - ${stepName}`
+                    page,
+                    testInfo,
+                    `STEP ${currentStep} - ${stepName}`
                 );
-
-            } catch (error) {
-
-                await this.takeScreenshot(
-                    `FAIL - ${stepName}`
-                );
-
-                throw error;
             }
-        });
+        );
     }
 
-    private async takeScreenshot(
-        name: string
-    ): Promise<void> {
 
-        try {
+    
+    static async takeScreenshot(
+        page: Page,
+        testInfo: TestInfo,
+        screenshotName: string
+    ) {
 
-            if (this.page.isClosed()) {
-                return;
+        const screenshot = await page.screenshot();
+
+        await testInfo.attach(
+            screenshotName,
+            {
+                body: screenshot,
+                contentType: "image/png"
             }
-
-            await this.testInfo.attach(name, {
-                body: await this.page.screenshot({
-                    fullPage: false
-                }),
-                contentType: 'image/png'
-            });
-
-        } catch (screenshotError) {
-
-            console.log(
-                `Screenshot could not be captured: ${screenshotError}`
-            );
-        }
+        );
     }
 }

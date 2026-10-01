@@ -20,4 +20,8 @@ export class CartPage {
     async clickCheckout(): Promise<void> {
         await this.checkoutButton.click();
     }
+
+    async checkout(): Promise<void> {
+        await this.checkoutButton.click();
+    }
 }

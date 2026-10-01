@@ -1,0 +1,19 @@
+{
+    "login": {
+        "username": "standard_user",
+        "password": "secret_sauce"
+    },
+    "login2": {
+        "userId": "locked_out_user",
+        "passforword": "secret_sauce"
+    },
+    "login3": {
+        "userId": "problem_user",
+        "passforword": "secret_sauce"
+    },
+    "customerinfo": {
+        "firstName": "prabha",
+        "lastName": "sekar",
+        "postalCode": "600037"
+    }
+}

@@ -41,11 +41,21 @@ export class CheckoutPage {
         await this.postalCode.fill(postalCode);
     }
 
+    async enterCustomerDetails(customer: { firstName: string; lastName: string; postalCode: string }): Promise<void> {
+        await this.firstName.fill(customer.firstName);
+        await this.lastName.fill(customer.lastName);
+        await this.postalCode.fill(customer.postalCode);
+    }
+
     async verifyContinueButton(): Promise<void> {
         await expect(this.continueButton).toBeVisible();
     }
 
     async clickContinue(): Promise<void> {
+        await this.continueButton.click();
+    }
+
+    async continueToOverview(): Promise<void> {
         await this.continueButton.click();
     }
 
@@ -55,5 +65,13 @@ export class CheckoutPage {
 
     async clickFinish(): Promise<void> {
         await this.finishButton.click();
+    }
+
+    async finishOrder(): Promise<void> {
+        await this.finishButton.click();
+    }
+
+    async backToProducts(): Promise<void> {
+        await this.page.goto('https://www.saucedemo.com/inventory.html');
     }
 }
